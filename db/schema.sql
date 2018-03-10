@@ -1,32 +1,76 @@
-DROP DATABASE IF EXISTS profilesdb;
+-- ---
+-- Globals
+-- ---
 
-CREATE DATABASE profilesdb;
+-- SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+-- SET FOREIGN_KEY_CHECKS=0;
 
-USE profilesdb;
+-- ---
+-- Table 'Users'
+-- 
+-- ---
 
-CREATE TABLE business_profiles (
-email VARCHAR(320) NOT NULL UNIQUE,
-password VARCHAR(24) NOT NULL, 
-location CHAR(5) NOT NULL, 
-category VARCHAR(100) NOT NULL,
-offer_name VARCHAR(255),
-offer_info VARCHAR(640),
-original_price DECIMAL (6,2), 
-sale_price DECIMAL (6,2),
-threshold SMALLINT UNSIGNED,
-website VARCHAR(255),
-business_id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY
+DROP TABLE IF EXISTS 'Users';
+		
+CREATE TABLE 'Users' (
+  'id' INTEGER NULL AUTO_INCREMENT DEFAULT 1000,
+  'user_name' VARCHAR(111) NULL DEFAULT NULL,
+  'user_type' VARCHAR(111) NULL DEFAULT NULL,
+  'email' VARCHAR(111) NULL DEFAULT NULL,
+  'zip_code' INTEGER(11) NULL DEFAULT NULL,
+  PRIMARY KEY ('id')
 );
 
-CREATE TABLE user_profiles (
-email VARCHAR(320) NOT NULL UNIQUE,
-password VARCHAR(24) NOT NULL,
-first_name VARCHAR(100) NOT NULL,
-last_name VARCHAR(100) NOT NULL,
-location CHAR(5) NOT NULL,
-commitment VARCHAR(255),
-user_id INT(11) AUTO_INCREMENT PRIMARY KEY
+-- ---
+-- Table 'Backers'
+-- 
+-- ---
+
+DROP TABLE IF EXISTS 'Backers';
+		
+CREATE TABLE 'Backers' (
+  'user_id' INTEGER NULL DEFAULT NULL,
+  'campaign_id' INTEGER NULL DEFAULT NULL,
+  PRIMARY KEY ()
 );
 
+-- ---
+-- Table 'Campaigns'
+-- 
+-- ---
 
+DROP TABLE IF EXISTS 'Campaigns';
+		
+CREATE TABLE 'Campaigns' (
+  'id' INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
+  'campaign_title' VARCHAR(222) NULL DEFAULT NULL,
+  'description' VARCHAR(999) NULL DEFAULT NULL,
+  'commits_required' INTEGER(11) NULL DEFAULT NULL,
+  PRIMARY KEY ('id')
+);
 
+-- ---
+-- Foreign Keys 
+-- ---
+
+ALTER TABLE 'Backers' ADD FOREIGN KEY (user_id) REFERENCES 'Users' ('id');
+ALTER TABLE 'Backers' ADD FOREIGN KEY (campaign_id) REFERENCES 'Campaigns' ('id');
+
+-- ---
+-- Table Properties
+-- ---
+
+-- ALTER TABLE 'Users' ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+-- ALTER TABLE 'Backers' ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+-- ALTER TABLE 'Campaigns' ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ---
+-- Test Data
+-- ---
+
+-- INSERT INTO 'Users' ('id','user_name','user_type','email','zip_code') VALUES
+-- ('','','','','');
+-- INSERT INTO 'Backers' ('user_id','campaign_id') VALUES
+-- ('','');
+-- INSERT INTO 'Campaigns' ('id','campaign_title','description','commits_required') VALUES
+-- ('','','','');
